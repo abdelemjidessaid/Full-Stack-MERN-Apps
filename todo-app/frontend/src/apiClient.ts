@@ -2,7 +2,7 @@ import { TaskType } from "./types/TaskType";
 
 const backendUrl = import.meta.env.VITE_API_BASE_URL;
 
-export const logOut = async () => {
+export const logout = async () => {
   return fetch(`${backendUrl}/api/auth/logout`, {
     method: "POST",
     credentials: "include",

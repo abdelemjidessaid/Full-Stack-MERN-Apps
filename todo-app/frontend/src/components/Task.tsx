@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router";
-import { useAppContext } from "../context/AppContext";
+import { useAppContext } from "../context/AppProvider";
 import { TaskType } from "../types/TaskType";
 
 const Task = ({
@@ -10,13 +10,16 @@ const Task = ({
   finished,
   _id,
 }: TaskType) => {
-  const { tasks } = useAppContext();
+  const { tasks, setTasks } = useAppContext();
   const navigate = useNavigate();
   const baseurl = import.meta.env.VITE_API_BASE_URL;
 
   const handleDone = async (id: string, checked: boolean) => {
     const task = tasks.find((task) => task._id === id);
-    if (task) task.finished = checked;
+    if (task) {
+      task.finished = checked;
+      setTasks([...tasks.filter((t) => t._id !== task._id), task]);
+    }
 
     const response = await fetch(`${baseurl}/api/task/update/${task?._id}`, {
       method: "PUT",

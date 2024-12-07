@@ -1,6 +1,7 @@
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router";
 import { toast } from "react-toastify";
+import { useAuth } from "../context/AuthProvider";
 
 type FormValues = {
   username: string;
@@ -9,8 +10,11 @@ type FormValues = {
 };
 
 const Register = () => {
-  const navigate = useNavigate();
   const baseurl = import.meta.env.VITE_API_BASE_URL;
+
+  const navigate = useNavigate();
+  const { login } = useAuth();
+
   const form = useForm<FormValues>({
     defaultValues: {
       username: "",
@@ -19,6 +23,7 @@ const Register = () => {
     },
     mode: "onChange",
   });
+
   const {
     register,
     formState: { errors },
@@ -45,6 +50,8 @@ const Register = () => {
     }
 
     toast.success(result.message);
+    // set as logged in
+    login();
     navigate("/");
   };
 

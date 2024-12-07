@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router";
 import { toast } from "react-toastify";
-import { useAppContext } from "../context/AppContext";
+import { useAuth } from "../context/AuthProvider";
 
 type FormValues = {
   email: string;
@@ -9,9 +9,10 @@ type FormValues = {
 };
 
 const Login = () => {
-  const navigate = useNavigate();
-  const { setLoggedIn } = useAppContext();
   const baseUrl = import.meta.env.VITE_API_BASE_URL || "";
+
+  const navigate = useNavigate();
+  const { login } = useAuth();
 
   const form = useForm<FormValues>({
     defaultValues: {
@@ -45,7 +46,8 @@ const Login = () => {
       }
 
       toast.success(result.message);
-      setLoggedIn(true);
+      // set as logged in
+      login();
       navigate("/");
     } catch (error) {
       console.log(error);

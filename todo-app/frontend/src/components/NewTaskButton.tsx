@@ -1,5 +1,5 @@
 import { Plus } from "lucide-react";
-import { useAppContext } from "../context/AppContext";
+import { useAppContext } from "../context/AppProvider";
 
 const NewTaskButton = () => {
   const { setDialogDisplay } = useAppContext();
