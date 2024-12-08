@@ -1,6 +1,7 @@
 import { useForm } from "react-hook-form";
 import { TaskType } from "../types/TaskType";
-import { useNavigate } from "react-router";
+import { toast } from "react-toastify";
+import { useAppContext } from "../context/AppProvider";
 
 type Props = {
   visible: boolean;
@@ -29,7 +30,7 @@ function NewTaskDialog({ onClose, visible }: Props) {
   const { formState, register, handleSubmit } = form;
   const { errors } = formState;
   const baseurl = import.meta.env.VITE_API_BASE_URL;
-  const navigate = useNavigate();
+  const { tasks, setTasks } = useAppContext();
 
   const onSubmit = async (data: TaskType) => {
     data.creationDate = new Date().toISOString().slice(0, 16);
@@ -45,13 +46,13 @@ function NewTaskDialog({ onClose, visible }: Props) {
 
     const result = await response.json();
     if (!response.ok) {
-      console.log(result.message);
+      toast.error(result.message);
       return;
     }
 
-    console.log(result.message);
+    toast.success(result.message);
+    setTasks([...tasks, result.task]);
     onClose();
-    navigate("/");
   };
 
   return (

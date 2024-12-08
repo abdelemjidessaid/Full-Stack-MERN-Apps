@@ -19,7 +19,7 @@ const Layout = ({ children }: Props) => {
       }`}
     >
       <Navbar />
-      <ToastContainer theme="dark" />
+      <ToastContainer theme="dark" position="top-left" />
       <div className="container">{children}</div>
       <Footer />
     </div>

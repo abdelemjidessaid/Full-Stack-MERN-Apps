@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router";
+import { NavLink, useNavigate } from "react-router";
 import * as apiClient from "../apiClient";
 import { toast } from "react-toastify";
 import { useAuth } from "../context/AuthProvider";
@@ -22,29 +22,47 @@ const Navbar = () => {
   return (
     <div className="border-b border-gray-800 w-full">
       <div className="container w-full mx-auto flex flex-col md:flex-row items-center justify-between py-4 gap-3">
-        <p className="text-xl">Todo List App</p>
+        {isAuthenticated ? (
+          <NavLink to="/" className="text-xl hover:text-green-400">
+            Todo List App
+          </NavLink>
+        ) : (
+          <p className="text-xl cursor-pointer hover:text-green-400">Todo List App</p>
+        )}
 
         {isAuthenticated && (
           <div className={"flex flex-row items-center justify-end gap-1"}>
-            <Link
+            <NavLink
               to={"/"}
-              className="px-4 py-1 rounded-md w-full text-center hover:bg-gray-700 transition-all duration-300 ease-in-out"
+              className={({ isActive }) =>
+                isActive
+                  ? "px-4 py-1 rounded-md w-full text-center text-green-400 transition-all duration-300 ease-in-out"
+                  : "px-4 py-1 rounded-md w-full text-center hover:text-green-400 transition-all duration-300 ease-in-out"
+              }
             >
               Home
-            </Link>
-            <Link
+            </NavLink>
+            <NavLink
               to={"/profile"}
-              className="px-4 py-1 rounded-md w-full text-center hover:bg-gray-700 transition-all duration-300 ease-in-out"
+              className={({ isActive }) =>
+                isActive
+                  ? "px-4 py-1 rounded-md w-full text-center text-green-400 transition-all duration-300 ease-in-out"
+                  : "px-4 py-1 rounded-md w-full text-center hover:text-green-400 transition-all duration-300 ease-in-out"
+              }
             >
               Profile
-            </Link>
-            <Link
+            </NavLink>
+            <NavLink
               to={"/logout"}
               onClick={() => handleLogout()}
-              className="px-4 py-1 rounded-md w-full text-center hover:bg-gray-700 transition-all duration-300 ease-in-out"
+              className={({ isActive }) =>
+                isActive
+                  ? "px-4 py-1 rounded-md w-full text-center text-green-400 transition-all duration-300 ease-in-out"
+                  : "px-4 py-1 rounded-md w-full text-center hover:text-green-400 transition-all duration-300 ease-in-out"
+              }
             >
               Logout
-            </Link>
+            </NavLink>
           </div>
         )}
       </div>

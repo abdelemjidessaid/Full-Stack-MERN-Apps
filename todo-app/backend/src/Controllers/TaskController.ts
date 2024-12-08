@@ -1,8 +1,7 @@
 import { Request, Response } from "express";
 import TaskModel from "../Models/Task";
-import { param, validationResult } from "express-validator";
+import { validationResult } from "express-validator";
 import { Task } from "../Types/Task";
-import { error } from "console";
 
 /**
  * userTasks - @async function that retrive all tasks from database and return it as
@@ -53,7 +52,7 @@ const createTask = async (req: Request, res: Response): Promise<Response | void>
 
     await task.save();
 
-    return res.status(200).json({ message: "Task created: " + task._id });
+    return res.status(200).json({ message: "Task created.", task });
   } catch (error) {
     return res.status(500).json({ message: "Something went wrong during task creation" });
   }
@@ -124,4 +123,32 @@ const singleTask = async (req: Request, res: Response): Promise<Response | void>
   }
 };
 
-export default { userTasks, createTask, updateTask, singleTask };
+/**
+ * deleteTask - @async function that deletes a specific task from Database.
+ *
+ * @param req Express Request to delete a specific task by its ID.
+ * @param res Express Response of the action taken with next status codes:
+ *            - 500 deletion failed, if an error occured
+ *            - 401 deletion failed, task info and user ID not matched
+ *            - 404 deletion failed, task not found on DB
+ *            - 200 deletion success
+ * @returns Express Response.
+ */
+const deleteTask = async (req: Request, res: Response): Promise<Response | void> => {
+  const errors = validationResult(req).array();
+  if (errors?.length > 0) return res.status(401).json({ message: errors[0].msg });
+
+  try {
+    const _id = req.params.taskId;
+    const userId = req.userId;
+
+    const task = await TaskModel.findOneAndDelete({ _id, userId });
+    if (!task) return res.status(404).json({ message: "Task not found" });
+
+    res.status(200).json({ message: "Task deleted.", task });
+  } catch (error) {
+    return res.status(500).json({ message: "Something went wrong during the task deletion!" });
+  }
+};
+
+export default { userTasks, createTask, updateTask, singleTask, deleteTask };

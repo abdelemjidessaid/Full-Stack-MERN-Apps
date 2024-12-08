@@ -71,4 +71,12 @@ router.put(
   taskController.updateTask as express.RequestHandler
 );
 
+// /api/task/delete/:taskId
+router.delete(
+  "/delete/:taskId",
+  [param("taskId").isString().notEmpty().withMessage("Task ID not valid!")],
+  verifyToken as express.RequestHandler,
+  taskController.deleteTask as express.RequestHandler
+);
+
 export default router;

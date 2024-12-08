@@ -35,7 +35,8 @@ const Home = () => {
         return;
       }
 
-      setTasks([...result]);
+      console.log("Tasks fetched.");
+      setTasks(result);
     };
 
     fetchData();

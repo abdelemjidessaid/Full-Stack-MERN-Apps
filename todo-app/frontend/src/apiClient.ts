@@ -39,13 +39,24 @@ export const fetchTask = async (taskId: string | undefined) => {
   });
 };
 
-export const updateTask = async (data: TaskType) => {
-  return fetch(`${backendUrl}/api/task/update/${data._id}`, {
+export const updateTask = async (task: TaskType) => {
+  return fetch(`${backendUrl}/api/task/update/${task._id}`, {
     method: "PUT",
     credentials: "include",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify(data),
+    body: JSON.stringify(task),
+  });
+};
+
+export const deleteTask = async (task: TaskType) => {
+  return fetch(`${backendUrl}/api/task/delete/${task._id}`, {
+    method: "DELETE",
+    credentials: "include",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(task),
   });
 };
