@@ -10,8 +10,6 @@ type AppContextType = {
   setTasks: React.Dispatch<React.SetStateAction<TaskType[]>>;
   dialogDisplay: boolean;
   setDialogDisplay: React.Dispatch<React.SetStateAction<boolean>>;
-  expanded: boolean;
-  setExpanded: React.Dispatch<React.SetStateAction<boolean>>;
   loggedIn: boolean;
   setLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
 };
@@ -21,7 +19,6 @@ const appContext = createContext<AppContextType | undefined>(undefined);
 export const AppContext = ({ children }: Props) => {
   const [tasks, setTasks] = useState<TaskType[]>([]);
   const [dialogDisplay, setDialogDisplay] = useState(false);
-  const [expanded, setExpanded] = useState(false);
   const [loggedIn, setLoggedIn] = useState(false);
 
   return (
@@ -33,8 +30,6 @@ export const AppContext = ({ children }: Props) => {
         setDialogDisplay,
         loggedIn,
         setLoggedIn,
-        expanded,
-        setExpanded,
       }}
     >
       {children}

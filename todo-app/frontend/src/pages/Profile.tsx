@@ -68,7 +68,7 @@ const Profile = () => {
 
   return (
     <div className="my-10 flex flex-col gap-4 items-center justify-center h-full w-full text-sm">
-      <h1 className="text-xl">Create Account</h1>
+      <h1 className="text-xl">My Profile</h1>
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="flex flex-col gap-4 min-w-[300px] w-full md:w-[60%]"
@@ -77,7 +77,7 @@ const Profile = () => {
         <div className="flex flex-col">
           <label htmlFor="username">Username</label>
           <input
-            className="px-4 py-2 bg-gray-700 rounded-md border border-gray-500 placeholder:font-normal placeholder:text-gray-300"
+            className="px-4 py-2 bg-zinc-700/80 focus:bg-zinc-700/50 outline-none rounded-md placeholder:font-normal placeholder:text-gray-300"
             type="text"
             id="username"
             {...register("username", {
@@ -100,7 +100,7 @@ const Profile = () => {
         <div className="flex flex-col">
           <label htmlFor="email">Email</label>
           <input
-            className="px-4 py-2 bg-gray-700 rounded-md border border-gray-500 placeholder:font-normal placeholder:text-gray-300"
+            className="px-4 py-2 bg-zinc-700/80 focus:bg-zinc-700/50 outline-none rounded-md placeholder:font-normal placeholder:text-gray-300"
             type="email"
             id="email"
             disabled
@@ -123,7 +123,7 @@ const Profile = () => {
         <div className="flex flex-col">
           <label htmlFor="password">Password</label>
           <input
-            className="px-4 py-2 bg-gray-700 rounded-md border border-gray-500 placeholder:font-normal placeholder:text-gray-300"
+            className="px-4 py-2 bg-zinc-700/80 focus:bg-zinc-700/50 outline-none rounded-md placeholder:font-normal placeholder:text-gray-300"
             type="password"
             id="password"
             {...register("password", {
@@ -137,11 +137,6 @@ const Profile = () => {
                   "Password must contain 8 characters or more"
                 );
               },
-              // pattern: {
-              //   value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]+$/,
-              //   message:
-              //     "Password should contains characters(capital and small letters) and digits",
-              // },
             })}
           />
           <p className="text-xs text-red-500 font-semibold self-end mt-1">
@@ -151,7 +146,7 @@ const Profile = () => {
 
         {/* Login Button */}
         <button
-          className="px-4 py-2 w-full mt-4 bg-gray-700 text-white font-semibold hover:bg-gray-600 rounded-md transition-all ease-in-out duration-200"
+          className="px-4 py-2 w-full mt-4 border border-zinc-100 rounded-md hover:border-transparent hover:bg-zinc-800 transition-all ease-in-out duration-200"
           type="submit"
         >
           Update Profile

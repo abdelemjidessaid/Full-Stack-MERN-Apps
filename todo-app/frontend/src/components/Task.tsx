@@ -4,6 +4,7 @@ import { TaskType } from "../types/TaskType";
 import * as apiClient from "../apiClient";
 import { ClockAlert, Pencil, Trash2 } from "lucide-react";
 import { toast } from "react-toastify";
+import { AnimatePresence, motion } from "motion/react";
 
 const Task = ({
   taskTitle,
@@ -28,10 +29,7 @@ const Task = ({
   const handleDelete = async (e: any) => {
     if (!e.target.id.startsWith("trash")) return;
 
-    const task = tasks.find((t) => t._id === _id);
-    setTasks([...tasks.filter((task) => task._id !== _id)]);
-
-    const response = await apiClient.deleteTask(task as TaskType);
+    const response = await apiClient.deleteTask(_id as string);
     const result = await response.json();
 
     if (!response.ok) {
@@ -39,6 +37,7 @@ const Task = ({
       return;
     }
 
+    setTasks([...tasks.filter((task) => task._id !== _id)]);
     toast.success(result.message);
   };
 
@@ -60,12 +59,12 @@ const Task = ({
     });
 
     const result = await response.json();
-    if (!result.ok) {
-      console.log(result.message);
+    if (!response.ok) {
+      toast.error(result.message);
       return;
     }
 
-    console.log(result.message);
+    toast.success(result.message);
   };
 
   const handleTaskClick = (e: any) => {
@@ -75,62 +74,78 @@ const Task = ({
   };
 
   return (
-    <div
-      onClick={handleTaskClick}
-      id="task-parent"
-      key={_id}
-      className={`flex flex-col justify-between w-full border-2 ${
-        finished
-          ? "shadow-[5px_5px_0_0] shadow-green-800 border border-green-800"
-          : isExpired()
-          ? "border-red-500 border-opacity-40"
-          : "border-gray-800"
-      } transition-all duration-300 ease-in-out rounded-md p-4 text-sm cursor-pointer bg-gray-900 hover:bg-transparent space-y-8`}
-    >
-      <div className="flex flex-col justify-between gap-4">
-        <div className="flex flex-row items-center justify-between">
-          {/* Creation Date */}
-          <div className="flex flex-row justify-between items-center gap-2 text-green-300">
-            <Pencil className="w-[18px]" />
-            <p className="text-xs">{creationDate?.replace("T", " | ")}</p>
+    <AnimatePresence>
+      <motion.div
+        onClick={handleTaskClick}
+        id="task-parent"
+        key={_id}
+        initial={{ opacity: 0, scale: 0.8, x: -100, y: -100 }}
+        whileInView={{
+          opacity: 1,
+          scale: 1,
+          x: 0,
+          y: 0,
+          transition: { duration: 0.1, delay: 0 },
+        }}
+        exit={{
+          opacity: 0.8,
+          scale: 1.5,
+          transition: { duration: 0.2 },
+        }}
+        className={`flex flex-col justify-between w-full border-2 ${
+          finished
+            ? "shadow-[5px_5px_0_0] shadow-green-800 border border-green-800"
+            : isExpired()
+            ? "border-red-500 border-opacity-40"
+            : "border-gray-800"
+        } transition-all duration-300 ease-in-out rounded-md p-4 text-sm cursor-pointer bg-gray-900 hover:bg-transparent space-y-8`}
+      >
+        <div className="flex flex-col justify-between gap-4">
+          <div className="flex flex-row items-center justify-between">
+            {/* Creation Date */}
+            <div className="flex flex-row justify-between items-center gap-2 text-green-300">
+              <Pencil className="w-[18px]" />
+              <p className="text-xs">{creationDate?.replace("T", " | ")}</p>
+            </div>
+            {/* Delete Task */}
+            <button
+              onClick={handleDelete}
+              id={`trash-${_id}`}
+              className="p-1 hover:text-red-500 transition-all duration-200 ease-in-out flex flex-row items-center justify-center gap-2"
+            >
+              <Trash2 className="w-[18px]" /> Delete
+            </button>
           </div>
-          {/* Delete Task */}
-          <button
-            onClick={handleDelete}
-            id={`trash-${_id}`}
-            className="p-1 hover:text-red-500 transition-all duration-200 ease-in-out"
+          {/* Task Title */}
+          <p className="self-center font-semibold">{taskTitle}</p>
+        </div>
+        <p className="mt-3 break-words">{taskDescription}</p>
+        <div className="flex flex-cols justify-between items-center">
+          <label
+            htmlFor={`done-${_id}`}
+            id={`done-`}
+            className="flex justify-center items-center gap-2 px-2 py-1 cursor-pointer text-center hover:text-green-500 duration-300 ease-in-out"
           >
-            <Trash2 id={`trash-${_id}`} className="w-[20px]" />
-          </button>
+            <input
+              id={`done-${_id}`}
+              type="checkbox"
+              checked={finished}
+              className="h-[20px] w-[20px] cursor-pointer"
+              onChange={(e) => handleDone(_id as string, e.target.checked)}
+            />
+            {finished ? "Not yet" : "Done"}
+          </label>
+          <div
+            className={`flex flex-row justify-between items-center gap-2 ${
+              isExpired() ? "text-red-300" : "text-blue-300"
+            }`}
+          >
+            <ClockAlert className="w-[18px]" />
+            <p className="text-xs">{expirationDate?.replace("T", " | ")}</p>
+          </div>
         </div>
-        {/* Task Title */}
-        <p className="self-center font-semibold">{taskTitle}</p>
-      </div>
-      <p className="mt-3 break-words">{taskDescription}</p>
-      <div className="flex flex-cols justify-between items-center">
-        <label
-          htmlFor={`done-${_id}`}
-          id={`done-`}
-          className="flex justify-center items-center gap-2 px-2 py-1 cursor-pointer"
-        >
-          <input
-            id={`done-${_id}`}
-            type="checkbox"
-            checked={finished}
-            onChange={(e) => handleDone(_id as string, e.target.checked)}
-          />
-          {finished ? "Not yet" : "Done"}
-        </label>
-        <div
-          className={`flex flex-row justify-between items-center gap-2 ${
-            isExpired() ? "text-red-300" : "text-blue-300"
-          }`}
-        >
-          <ClockAlert className="w-[18px]" />
-          <p className="text-xs">{expirationDate?.replace("T", " | ")}</p>
-        </div>
-      </div>
-    </div>
+      </motion.div>
+    </AnimatePresence>
   );
 };
 

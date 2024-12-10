@@ -1,0 +1,6 @@
+#!/bin/bash
+
+# start up the ssh-agent
+eval $(ssh-agent -s)
+# add the secure key to the ssh-config
+ssh-add ~/.ssh/github

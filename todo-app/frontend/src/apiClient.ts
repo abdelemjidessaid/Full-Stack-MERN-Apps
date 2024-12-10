@@ -50,13 +50,9 @@ export const updateTask = async (task: TaskType) => {
   });
 };
 
-export const deleteTask = async (task: TaskType) => {
-  return fetch(`${backendUrl}/api/task/delete/${task._id}`, {
+export const deleteTask = async (taskId: string) => {
+  return fetch(`${backendUrl}/api/task/delete/${taskId}`, {
     method: "DELETE",
     credentials: "include",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(task),
   });
 };

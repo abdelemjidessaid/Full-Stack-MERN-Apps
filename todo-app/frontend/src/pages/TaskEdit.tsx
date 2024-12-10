@@ -61,12 +61,12 @@ const TaskEdit = () => {
 
   return (
     <div className="mt-8 place-self-center w-full lg:w-[50%]">
-      <form className="text-xs" onSubmit={handleSubmit(onSubmit)}>
+      <form className="text-sm" onSubmit={handleSubmit(onSubmit)}>
         {/* Task Title */}
-        <div className="flex flex-col text-gray-50 text-sm">
+        <div className="flex flex-col text-gray-50">
           <label htmlFor="taskTitle">Task Title</label>
           <input
-            className="px-4 py-2 bg-gray-700 rounded-md border border-gray-500 placeholder:font-normal placeholder:text-gray-300"
+            className="px-4 py-2 bg-zinc-700/80 focus:bg-zinc-700/50 outline-none rounded-md placeholder:font-normal placeholder:text-gray-300"
             type="text"
             id="tasktitle"
             placeholder="Revise Math for ex..."
@@ -82,10 +82,10 @@ const TaskEdit = () => {
           </p>
         </div>
         {/* Task Description */}
-        <div className="flex flex-col text-gray-50 text-sm mt-4">
+        <div className="flex flex-col text-gray-50 mt-4">
           <label htmlFor="taskDescription">Task Description</label>
           <textarea
-            className="px-4 py-2 bg-gray-700 rounded-md min-h-24 border border-gray-500 placeholder:font-normal placeholder:text-gray-300"
+            className="px-4 py-2 min-h-[100px] bg-zinc-700/80 focus:bg-zinc-700/50 outline-none rounded-md placeholder:font-normal placeholder:text-gray-300"
             id="taskdescription"
             placeholder="Revise math and do some exercises for the 1st Examination"
             {...register("taskDescription", {
@@ -100,10 +100,10 @@ const TaskEdit = () => {
           </p>
         </div>
         {/* Task Expiration Date */}
-        <div className="flex flex-col text-gray-50 text-sm mt-4">
+        <div className="flex flex-col text-gray-50 mt-4">
           <label htmlFor="expirationDate">Expiration Date</label>
           <input
-            className="px-4 py-2 bg-gray-700 rounded-md border placeholder:font-normal placeholder:text-gray-300 border-gray-500"
+            className="px-4 py-2 bg-zinc-700/80 focus:bg-zinc-700/50 outline-none rounded-md placeholder:text-gray-300 border-gray-500"
             type="datetime-local"
             id="expirationdate"
             {...register("expirationDate", {
@@ -126,7 +126,7 @@ const TaskEdit = () => {
         </div>
         {/* Submit Button */}
         <button
-          className="px-4 py-2 w-full mt-4 bg-gray-700 text-white font-semibold hover:bg-gray-600 rounded-md transition-all ease-in-out duration-200"
+          className="px-4 py-2 w-full mt-4 border border-zinc-100 rounded-md hover:border-transparent hover:bg-zinc-800 transition-all ease-in-out duration-200"
           type="submit"
         >
           Update Task

@@ -8,6 +8,7 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router";
 import { useAuth } from "../context/AuthProvider";
 import { toast } from "react-toastify";
+import { TaskType } from "../types/TaskType";
 
 const Home = () => {
   const { dialogDisplay, setDialogDisplay, setTasks } = useAppContext();
@@ -35,8 +36,7 @@ const Home = () => {
         return;
       }
 
-      console.log("Tasks fetched.");
-      setTasks(result);
+      setTasks((result as Array<TaskType>).reverse());
     };
 
     fetchData();

@@ -10,12 +10,12 @@ type Props = {
 };
 
 const Layout = ({ children }: Props) => {
-  const { dialogDisplay, expanded } = useAppContext();
+  const { dialogDisplay } = useAppContext();
 
   return (
     <div
       className={`flex flex-col items-center w-full min-h-screen ${
-        dialogDisplay || expanded ? "fixed" : "relative"
+        dialogDisplay ? "fixed" : "relative"
       }`}
     >
       <Navbar />
