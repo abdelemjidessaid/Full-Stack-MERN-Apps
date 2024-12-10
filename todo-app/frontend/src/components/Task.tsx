@@ -2,9 +2,11 @@ import { useNavigate } from "react-router";
 import { useAppContext } from "../context/AppProvider";
 import { TaskType } from "../types/TaskType";
 import * as apiClient from "../apiClient";
-import { ClockAlert, Pencil, Trash2 } from "lucide-react";
+import { ClockAlert, Pencil } from "lucide-react";
 import { toast } from "react-toastify";
 import { AnimatePresence, motion } from "motion/react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
 
 const Task = ({
   taskTitle,
@@ -26,10 +28,8 @@ const Task = ({
   };
 
   // Delete Handler
-  const handleDelete = async (e: any) => {
-    if (!e.target.id.startsWith("trash")) return;
-
-    const response = await apiClient.deleteTask(_id as string);
+  const handleDelete = async (taskId: string) => {
+    const response = await apiClient.deleteTask(taskId);
     const result = await response.json();
 
     if (!response.ok) {
@@ -109,11 +109,12 @@ const Task = ({
             </div>
             {/* Delete Task */}
             <button
-              onClick={handleDelete}
+              onClick={() => handleDelete(_id as string)}
               id={`trash-${_id}`}
               className="p-1 hover:text-red-500 transition-all duration-200 ease-in-out flex flex-row items-center justify-center gap-2"
             >
-              <Trash2 className="w-[18px]" /> Delete
+              <FontAwesomeIcon id={`trash-${_id}`} icon={faTrash} />
+              Delete
             </button>
           </div>
           {/* Task Title */}
